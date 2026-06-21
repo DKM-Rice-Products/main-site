@@ -52,7 +52,7 @@ export default function HeroSection() {
 
           <div className="anim-fade-up" style={{ animationDelay: ".3s", display: "flex", gap: 14, flexWrap: "wrap" }}>
             <Link href="/enquiry" className="btn-anim" style={{ background: `linear-gradient(135deg, ${C.gold}, #a87c2a)`, color: "white", padding: "15px 30px", borderRadius: 12, fontWeight: 700, fontSize: 14.5, textDecoration: "none", display: "flex", alignItems: "center", gap: 9, boxShadow: "0 8px 26px rgba(201,168,76,.38)" }}>
-              <FileText size={17} /> Request a Quote
+              <FileText size={17} /> Enquire Now
             </Link>
             <a href={`https://wa.me/${company.whatsapp}?text=Hello!%20I%20am%20interested%20in%20your%20rice%20products.`} target="_blank" rel="noreferrer" className="btn-anim" style={{ background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.3)", color: "white", padding: "15px 30px", borderRadius: 12, fontWeight: 700, fontSize: 14.5, textDecoration: "none", display: "flex", alignItems: "center", gap: 9, backdropFilter: "blur(4px)" }}>
               <MessageCircle size={17} /> Talk on WhatsApp

@@ -5,9 +5,10 @@ import { Check } from "lucide-react";
 import { C, inputStyle } from "@/lib/theme";
 import Modal from "@/components/ui/Modal";
 import Field from "@/components/ui/Field";
+import { brandWeights } from "@/data/brands";
 import { createEnquiry } from "@/lib/api-client";
 
-const empty = { name: "", phone: "", location: "", qty: "" };
+const empty = { name: "", phone: "", location: "", size: "", qty: "" };
 
 export default function QuickEnquiryModal({ open, onClose, brand, onSuccess, onError }) {
   const [form, setForm] = useState(empty);
@@ -36,7 +37,7 @@ export default function QuickEnquiryModal({ open, onClose, brand, onSuccess, onE
     <Modal open={open} onClose={onClose} title="🌾 Quick Enquiry">
       {brand && (
         <p style={{ fontSize: 13, color: C.textMid, marginBottom: 20, background: C.greenPale, padding: "8px 12px", borderRadius: 8 }}>
-          Enquiring about: <strong>{brand.name}</strong> ({brand.variety}, {brand.weight}) –{" "}
+          Enquiring about: <strong>{brand.name}</strong> ({brand.variety}) –{" "}
           <strong style={{ color: C.gold }}>₹{brand.price.toLocaleString()}</strong>
         </p>
       )}
@@ -49,8 +50,18 @@ export default function QuickEnquiryModal({ open, onClose, brand, onSuccess, onE
       <Field label="Location">
         <input style={inputStyle} value={form.location} onChange={set("location")} placeholder="City / District" />
       </Field>
+      <Field label="Pack Size">
+        <select style={{ ...inputStyle, appearance: "none", cursor: "pointer" }} value={form.size} onChange={set("size")}>
+          <option value="">-- Select size --</option>
+          {brandWeights.map((w) => (
+            <option key={w} value={w}>
+              {w}
+            </option>
+          ))}
+        </select>
+      </Field>
       <Field label="Quantity Required">
-        <input style={inputStyle} value={form.qty} onChange={set("qty")} placeholder="e.g. 5 bags of 50kg" />
+        <input style={inputStyle} value={form.qty} onChange={set("qty")} placeholder="e.g. 5 bags" />
       </Field>
       <button
         onClick={handle}

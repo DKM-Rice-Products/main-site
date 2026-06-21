@@ -30,7 +30,7 @@ export default function Navbar() {
       }}
     >
       <Link href="/" onClick={close} style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
-        <div style={{ width: 36, height: 36, background: `linear-gradient(135deg,${C.gold},${C.goldLight})`, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18 }}>🌾</div>
+        <img src="/logo.png" alt={company.shortName} width={40} height={40} style={{ width: 40, height: 40, objectFit: "contain" }} />
         <div style={{ color: "white", textAlign: "left" }}>
           <div style={{ fontFamily: "var(--font-display)", fontSize: 15, lineHeight: 1.1 }}>{company.shortName}</div>
           <div style={{ fontSize: 10, color: C.goldLight, letterSpacing: 1.2, textTransform: "uppercase" }}>{company.tagline}</div>

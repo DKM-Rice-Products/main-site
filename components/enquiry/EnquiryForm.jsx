@@ -5,11 +5,12 @@ import { useRouter } from "next/navigation";
 import { FileText } from "lucide-react";
 import { C, inputStyle } from "@/lib/theme";
 import { purchaseOptions } from "@/data/enquiries";
+import { brandWeights } from "@/data/brands";
 import Field from "@/components/ui/Field";
 import { usePublic } from "@/components/providers/PublicProvider";
 import { createEnquiry } from "@/lib/api-client";
 
-const empty = { name: "", email: "", phone: "", location: "", brand: "", qty: "", type: "direct", note: "" };
+const empty = { name: "", email: "", phone: "", location: "", brand: "", size: "", qty: "", type: "direct", note: "" };
 
 export default function EnquiryForm({ brands }) {
   const router = useRouter();
@@ -62,15 +63,25 @@ export default function EnquiryForm({ brands }) {
             <option value="">-- Select brand --</option>
             {brands.map((b) => (
               <option key={b.id} value={b.name}>
-                {b.name} ({b.weight})
+                {b.name}
               </option>
             ))}
           </select>
         </Field>
-        <Field label="Quantity Required">
-          <input style={inputStyle} value={form.qty} onChange={set("qty")} placeholder="e.g. 10 bags of 50kg" />
+        <Field label="Pack Size">
+          <select style={{ ...inputStyle, appearance: "none", cursor: "pointer" }} value={form.size} onChange={set("size")}>
+            <option value="">-- Select size --</option>
+            {brandWeights.map((w) => (
+              <option key={w} value={w}>
+                {w}
+              </option>
+            ))}
+          </select>
         </Field>
       </div>
+      <Field label="Quantity Required">
+        <input style={inputStyle} value={form.qty} onChange={set("qty")} placeholder="e.g. 10 bags" />
+      </Field>
       <Field label="Purchase Preference" required>
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
           {purchaseOptions.map((t) => (

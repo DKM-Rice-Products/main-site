@@ -2,6 +2,7 @@
 
 import { FileText } from "lucide-react";
 import { C, stockMeta } from "@/lib/theme";
+import { brandWeights } from "@/data/brands";
 import Badge from "@/components/ui/Badge";
 import { usePublic } from "@/components/providers/PublicProvider";
 
@@ -38,14 +39,16 @@ export default function BrandCard({ brand }) {
         <div style={{ position: "absolute", top: 10, left: 10, zIndex: 2 }}>
           <Badge label={s.label} color={s.color} bg={s.bg} />
         </div>
-        <div style={{ position: "absolute", top: 10, right: 10, zIndex: 2, background: C.gold, color: C.green, padding: "3px 10px", borderRadius: 10, fontSize: 11, fontWeight: 700 }}>
-          {brand.weight}
-        </div>
       </div>
       <div style={{ padding: "18px 18px 20px", flex: 1, display: "flex", flexDirection: "column" }}>
         <div style={{ fontFamily: "var(--font-display)", fontSize: "1.1rem", color: C.green, marginBottom: 6 }}>{brand.name}</div>
         <Badge label={brand.variety} color={C.greenMid} bg={C.greenPale} />
-        <p style={{ fontSize: 12, color: C.textMid, lineHeight: 1.6, margin: "10px 0 14px", flex: 1 }}>{brand.desc}</p>
+        <p style={{ fontSize: 12, color: C.textMid, lineHeight: 1.6, margin: "10px 0 12px", flex: 1 }}>{brand.desc}</p>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 14 }}>
+          {brandWeights.map((w) => (
+            <span key={w} style={{ fontSize: 11, fontWeight: 700, color: C.greenMid, background: C.greenPale, borderRadius: 6, padding: "3px 9px" }}>{w}</span>
+          ))}
+        </div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
           <div>
             <div style={{ fontFamily: "var(--font-display)", fontSize: "1.4rem", color: C.gold, fontWeight: 700 }}>₹{brand.price.toLocaleString()}</div>

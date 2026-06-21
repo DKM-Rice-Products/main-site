@@ -28,6 +28,11 @@ export const metadata = {
     "Tamil Nadu rice mill",
     "Arani rice",
   ],
+  icons: {
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
+  },
 };
 
 export const viewport = {

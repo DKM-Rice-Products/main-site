@@ -8,7 +8,7 @@ export default function FeaturedBrands({ brands }) {
         <div style={{ color: C.gold, fontSize: 11, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>Our Products</div>
         <h2 style={{ fontFamily: "var(--font-display)", color: C.green, fontSize: "2rem" }}>Featured Rice Brands</h2>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(270px,1fr))", gap: 22 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: 22, maxWidth: 1180, margin: "0 auto" }}>
         {brands.slice(0, 4).map((b) => (
           <BrandCard key={b.id} brand={b} />
         ))}

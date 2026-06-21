@@ -19,7 +19,7 @@ export default function DeliveryPage() {
         subtitle="Complete flexibility in how you buy and receive your rice."
       />
       <div style={{ background: C.goldPale, padding: "56px 5%" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(250px,1fr))", gap: 22 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(230px,1fr))", gap: 22, maxWidth: 1100, margin: "0 auto" }}>
           {deliveryOptions.map((o) => (
             <div key={o.title} style={{ background: C.white, borderRadius: 16, padding: 28, boxShadow: "0 2px 10px rgba(0,0,0,.07)", textAlign: "center" }}>
               <div style={{ fontSize: 48, marginBottom: 14 }}>{o.icon}</div>

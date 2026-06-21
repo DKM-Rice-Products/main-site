@@ -3,13 +3,13 @@
 import { useState } from "react";
 import { Plus, Search, Edit3, Trash2, Check } from "lucide-react";
 import { C, inputStyle, stockMeta } from "@/lib/theme";
-import { brandVarieties, brandTags, brandWeights } from "@/data/brands";
+import { brandVarieties, brandTags } from "@/data/brands";
 import Field from "@/components/ui/Field";
 import Badge from "@/components/ui/Badge";
 import Modal from "@/components/ui/Modal";
 import { createBrand, updateBrand, deleteBrand } from "@/lib/api-client";
 
-const empty = { name: "", variety: "Ponni Rice", tag: "ponni", weight: "50kg", price: "", stock: "available", emoji: "🌾", desc: "" };
+const empty = { name: "", variety: "Ponni Rice", tag: "ponni", price: "", stock: "available", emoji: "🌾", desc: "" };
 
 export default function AdminBrands({ brands, onChange, toast }) {
   const [showAdd, setShowAdd] = useState(false);
@@ -76,7 +76,7 @@ export default function AdminBrands({ brands, onChange, toast }) {
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
             <thead>
               <tr>
-                {["#", "Brand Name", "Variety", "Weight", "Price", "Stock", "Actions"].map((h) => (
+                {["#", "Brand Name", "Variety", "Price", "Stock", "Actions"].map((h) => (
                   <th key={h} style={{ background: C.green, color: "white", padding: "12px 16px", textAlign: "left", fontSize: 11, textTransform: "uppercase", letterSpacing: 0.7 }}>{h}</th>
                 ))}
               </tr>
@@ -89,7 +89,6 @@ export default function AdminBrands({ brands, onChange, toast }) {
                     <td style={{ padding: "11px 16px", color: C.textLight }}>{i + 1}</td>
                     <td style={{ padding: "11px 16px" }}><strong>{b.emoji} {b.name}</strong></td>
                     <td style={{ padding: "11px 16px" }}>{b.variety}</td>
-                    <td style={{ padding: "11px 16px" }}>{b.weight}</td>
                     <td style={{ padding: "11px 16px", fontWeight: 700, color: C.gold }}>₹{b.price.toLocaleString()}</td>
                     <td style={{ padding: "11px 16px" }}><Badge label={sm.label} color={sm.color} bg={sm.bg} /></td>
                     <td style={{ padding: "11px 16px" }}>
@@ -122,11 +121,6 @@ export default function AdminBrands({ brands, onChange, toast }) {
           <Field label="Category Tag">
             <select style={{ ...inputStyle, appearance: "none", cursor: "pointer" }} value={form.tag} onChange={set("tag")}>
               {brandTags.filter((t) => t !== "all").map((t) => <option key={t} value={t}>{t}</option>)}
-            </select>
-          </Field>
-          <Field label="Weight / Pack Size" required>
-            <select style={{ ...inputStyle, appearance: "none", cursor: "pointer" }} value={form.weight} onChange={set("weight")}>
-              {brandWeights.map((w) => <option key={w}>{w}</option>)}
             </select>
           </Field>
           <Field label="Price (₹)" required><input style={inputStyle} type="number" value={form.price} onChange={set("price")} placeholder="1850" /></Field>
