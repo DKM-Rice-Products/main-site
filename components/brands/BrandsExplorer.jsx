@@ -8,7 +8,7 @@ const ACRONYMS = { rnr: "RNR" };
 const tagLabel = (t) =>
   t === "all" ? "All Varieties" : (ACRONYMS[t] || t.charAt(0).toUpperCase() + t.slice(1)) + " Rice";
 
-export default function BrandsExplorer({ brands }) {
+export default function BrandsExplorer({ brands, showPrices = true }) {
   const [filter, setFilter] = useState("all");
   const filtered = filter === "all" ? brands : brands.filter((b) => b.tag === filter);
 
@@ -39,7 +39,7 @@ export default function BrandsExplorer({ brands }) {
         ) : (
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(270px,1fr))", gap: 22 }}>
             {filtered.map((b) => (
-              <BrandCard key={b.id} brand={b} />
+              <BrandCard key={b.id} brand={b} showPrices={showPrices} />
             ))}
           </div>
         )}

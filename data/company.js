@@ -17,6 +17,7 @@ export const company = {
     pincode: "632 301",
   },
   mapsQuery: "Arani,Tiruvannamalai,Tamil+Nadu",
+  mapsUrl: "https://maps.app.goo.gl/GJhDADaD7RsNJJzr9",
 };
 
 // Headline price-comparison banner values (editable from the admin portal).

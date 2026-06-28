@@ -10,7 +10,7 @@ import { createEnquiry } from "@/lib/api-client";
 
 const empty = { name: "", phone: "", location: "", size: "", qty: "" };
 
-export default function QuickEnquiryModal({ open, onClose, brand, onSuccess, onError }) {
+export default function QuickEnquiryModal({ open, onClose, brand, showPrices = true, onSuccess, onError }) {
   const [form, setForm] = useState(empty);
   const [submitting, setSubmitting] = useState(false);
   const set = (k) => (e) => setForm((p) => ({ ...p, [k]: e.target.value }));
@@ -37,8 +37,12 @@ export default function QuickEnquiryModal({ open, onClose, brand, onSuccess, onE
     <Modal open={open} onClose={onClose} title="🌾 Quick Enquiry">
       {brand && (
         <p style={{ fontSize: 13, color: C.textMid, marginBottom: 20, background: C.greenPale, padding: "8px 12px", borderRadius: 8 }}>
-          Enquiring about: <strong>{brand.name}</strong> ({brand.variety}) –{" "}
-          <strong style={{ color: C.gold }}>₹{brand.price.toLocaleString()}</strong>
+          Enquiring about: <strong>{brand.name}</strong> ({brand.variety})
+          {showPrices && (
+            <>
+              {" "}– <strong style={{ color: C.gold }}>₹{brand.price.toLocaleString()}</strong>
+            </>
+          )}
         </p>
       )}
       <Field label="Your Name" required>
@@ -53,7 +57,7 @@ export default function QuickEnquiryModal({ open, onClose, brand, onSuccess, onE
       <Field label="Pack Size">
         <select style={{ ...inputStyle, appearance: "none", cursor: "pointer" }} value={form.size} onChange={set("size")}>
           <option value="">-- Select size --</option>
-          {brandWeights.map((w) => (
+          {(brand?.weights?.length ? brand.weights : brandWeights).map((w) => (
             <option key={w} value={w}>
               {w}
             </option>

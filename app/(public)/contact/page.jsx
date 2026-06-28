@@ -23,7 +23,7 @@ export default function ContactPage() {
             <div style={{ fontSize: 48 }}>🗺️</div>
             <p style={{ fontWeight: 700, color: C.green }}>{company.address.city}, {company.address.district} District</p>
             <p style={{ fontSize: 13 }}>{company.address.state} – {company.address.pincode}</p>
-            <a href={`https://maps.google.com/?q=${company.mapsQuery}`} target="_blank" rel="noreferrer" style={{ marginTop: 10, background: C.greenMid, color: "white", padding: "8px 18px", borderRadius: 20, textDecoration: "none", fontSize: 13, fontWeight: 600 }}>
+            <a href={company.mapsUrl} target="_blank" rel="noreferrer" style={{ marginTop: 10, background: C.greenMid, color: "white", padding: "8px 18px", borderRadius: 20, textDecoration: "none", fontSize: 13, fontWeight: 600 }}>
               Open in Google Maps
             </a>
           </div>

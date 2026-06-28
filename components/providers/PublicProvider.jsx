@@ -15,7 +15,7 @@ export function usePublic() {
 
 // Provides app-wide toast notifications and the global "Quick Enquiry" modal
 // so any page or component can trigger them.
-export default function PublicProvider({ children }) {
+export default function PublicProvider({ children, showPrices = true }) {
   const { toasts, push: toast } = useToast();
   const [modalOpen, setModalOpen] = useState(false);
   const [modalBrand, setModalBrand] = useState(null);
@@ -32,6 +32,7 @@ export default function PublicProvider({ children }) {
       <QuickEnquiryModal
         open={modalOpen}
         brand={modalBrand}
+        showPrices={showPrices}
         onClose={() => setModalOpen(false)}
         onSuccess={() => {
           setModalOpen(false);

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FileText, MessageCircle, ShieldCheck, Truck, Award } from "lucide-react";
+import { FileText, MessageCircle, ShieldCheck, Truck, Award, ChevronDown } from "lucide-react";
 import { C } from "@/lib/theme";
 import { company } from "@/data/company";
 
@@ -22,8 +22,12 @@ export default function HeroSection() {
         overflow: "hidden",
       }}
     >
-      {/* subtle gold corner glow */}
-      <div aria-hidden style={{ position: "absolute", top: "-15%", right: "-8%", width: 480, height: 480, background: "radial-gradient(circle, rgba(201,168,76,.22), transparent 60%)", pointerEvents: "none" }} />
+      {/* soft gold corner glow */}
+      <div aria-hidden style={{ position: "absolute", top: "-15%", right: "-8%", width: 480, height: 480, background: "radial-gradient(circle, rgba(201,168,76,.22), transparent 60%)", pointerEvents: "none", animation: "orbDrift 14s ease-in-out infinite" }} />
+      {/* teal counter-glow, lower left */}
+      <div aria-hidden style={{ position: "absolute", bottom: "-20%", left: "-10%", width: 520, height: 520, background: "radial-gradient(circle, rgba(45,212,191,.16), transparent 62%)", pointerEvents: "none", animation: "orbDrift 18s ease-in-out infinite reverse" }} />
+      {/* fine grain / vignette for depth */}
+      <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(120% 120% at 50% 0%, transparent 55%, rgba(3,28,26,.55) 100%)", pointerEvents: "none" }} />
 
       <div style={{ maxWidth: 1180, margin: "0 auto", width: "100%", position: "relative", zIndex: 1 }}>
         <div style={{ maxWidth: 720 }}>
@@ -34,9 +38,10 @@ export default function HeroSection() {
               background: "rgba(201,168,76,.12)", border: `1px solid rgba(201,168,76,.55)`,
               color: C.goldLight, padding: "7px 18px", borderRadius: 30,
               fontSize: 11.5, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", marginBottom: 28,
+              backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)",
             }}
           >
-            <span style={{ width: 6, height: 6, borderRadius: "50%", background: C.goldLight, display: "inline-block" }} />
+            <span style={{ width: 7, height: 7, borderRadius: "50%", background: C.goldLight, display: "inline-block", boxShadow: `0 0 0 0 ${C.goldLight}`, animation: "pulseRing 2.6s ease-out infinite" }} />
             Wholesale &amp; Retail Rice Suppliers
           </div>
 
@@ -51,10 +56,10 @@ export default function HeroSection() {
           </p>
 
           <div className="anim-fade-up" style={{ animationDelay: ".3s", display: "flex", gap: 14, flexWrap: "wrap" }}>
-            <Link href="/enquiry" className="btn-anim" style={{ background: `linear-gradient(135deg, ${C.gold}, #a87c2a)`, color: "white", padding: "15px 30px", borderRadius: 12, fontWeight: 700, fontSize: 14.5, textDecoration: "none", display: "flex", alignItems: "center", gap: 9, boxShadow: "0 8px 26px rgba(201,168,76,.38)" }}>
+            <Link href="/enquiry" className="btn-anim" style={{ background: `linear-gradient(135deg, ${C.goldLight}, ${C.gold})`, color: C.green, padding: "15px 30px", borderRadius: 14, fontWeight: 700, fontSize: 14.5, textDecoration: "none", display: "flex", alignItems: "center", gap: 9, boxShadow: "0 10px 30px rgba(201,168,76,.40)" }}>
               <FileText size={17} /> Enquire Now
             </Link>
-            <a href={`https://wa.me/${company.whatsapp}?text=Hello!%20I%20am%20interested%20in%20your%20rice%20products.`} target="_blank" rel="noreferrer" className="btn-anim" style={{ background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.3)", color: "white", padding: "15px 30px", borderRadius: 12, fontWeight: 700, fontSize: 14.5, textDecoration: "none", display: "flex", alignItems: "center", gap: 9, backdropFilter: "blur(4px)" }}>
+            <a href={`https://wa.me/${company.whatsapp}?text=Hello!%20I%20am%20interested%20in%20your%20rice%20products.`} target="_blank" rel="noreferrer" className="btn-anim" style={{ background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.3)", color: "white", padding: "15px 30px", borderRadius: 14, fontWeight: 700, fontSize: 14.5, textDecoration: "none", display: "flex", alignItems: "center", gap: 9, backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)" }}>
               <MessageCircle size={17} /> Talk on WhatsApp
             </a>
           </div>
@@ -68,6 +73,12 @@ export default function HeroSection() {
             ))}
           </div>
         </div>
+      </div>
+
+      {/* scroll cue */}
+      <div aria-hidden style={{ position: "absolute", bottom: 26, left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: 4, color: "rgba(255,255,255,.5)", zIndex: 1 }}>
+        <span style={{ fontSize: 10, letterSpacing: 2, textTransform: "uppercase" }}>Scroll</span>
+        <ChevronDown size={18} style={{ animation: "scrollCue 1.8s ease-in-out infinite" }} />
       </div>
     </div>
   );

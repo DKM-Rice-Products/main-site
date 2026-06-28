@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Check } from "lucide-react";
+import { Check, Eye, EyeOff } from "lucide-react";
 import { C, inputStyle } from "@/lib/theme";
 import Field from "@/components/ui/Field";
 import { updateBrand, updateSettings } from "@/lib/api-client";
@@ -10,6 +10,8 @@ export default function AdminPrices({ brands, settings, onChange, toast }) {
   const [localPrices, setLocalPrices] = useState(() => brands.reduce((a, b) => ({ ...a, [b.id]: b.price }), {}));
   const [directPrice, setDirectPrice] = useState(settings.directPrice);
   const [retailPrice, setRetailPrice] = useState(settings.retailPrice);
+  const [showPrices, setShowPrices] = useState(settings.showPrices !== false);
+  const [togglingVisibility, setTogglingVisibility] = useState(false);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -19,7 +21,24 @@ export default function AdminPrices({ brands, settings, onChange, toast }) {
   useEffect(() => {
     setDirectPrice(settings.directPrice);
     setRetailPrice(settings.retailPrice);
+    setShowPrices(settings.showPrices !== false);
   }, [settings]);
+
+  const toggleVisibility = async () => {
+    const next = !showPrices;
+    setShowPrices(next);
+    setTogglingVisibility(true);
+    try {
+      await updateSettings({ showPrices: next });
+      toast(next ? "Prices are now visible on the website." : "Prices are now hidden on the website.");
+      await onChange();
+    } catch (err) {
+      setShowPrices(!next);
+      toast(err.message || "Could not update price visibility.", "error");
+    } finally {
+      setTogglingVisibility(false);
+    }
+  };
 
   const savePrices = async () => {
     setSaving(true);
@@ -48,6 +67,37 @@ export default function AdminPrices({ brands, settings, onChange, toast }) {
   return (
     <div>
       <h2 style={{ fontFamily: "var(--font-display)", color: C.green, fontSize: "1.5rem", marginBottom: 24 }}>Price Management</h2>
+
+      {/* Price visibility toggle */}
+      <div style={{ background: C.white, borderRadius: 14, padding: "20px 24px", boxShadow: "0 2px 10px rgba(0,0,0,.07)", marginBottom: 20, display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
+        <div style={{ width: 44, height: 44, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", background: showPrices ? C.greenPale : "#fee2e2", color: showPrices ? C.greenMid : C.red, flexShrink: 0 }}>
+          {showPrices ? <Eye size={20} /> : <EyeOff size={20} />}
+        </div>
+        <div style={{ flex: 1, minWidth: 200 }}>
+          <div style={{ fontSize: 14, fontWeight: 700, color: C.textDark }}>Show prices on website</div>
+          <div style={{ fontSize: 12.5, color: C.textLight, marginTop: 2 }}>
+            {showPrices
+              ? "Rice-bag prices are visible to visitors. Turn off to show “Price on enquiry” instead."
+              : "Prices are hidden — visitors see “Price on enquiry” and must contact you for rates."}
+          </div>
+        </div>
+        <button
+          role="switch"
+          aria-checked={showPrices}
+          aria-label="Toggle price visibility on the website"
+          onClick={toggleVisibility}
+          disabled={togglingVisibility}
+          style={{
+            position: "relative", width: 52, height: 30, borderRadius: 30, border: "none",
+            cursor: togglingVisibility ? "wait" : "pointer", flexShrink: 0, padding: 0,
+            background: showPrices ? `linear-gradient(135deg, ${C.greenMid}, ${C.green})` : "#cbd5d1",
+            transition: "background .25s ease", opacity: togglingVisibility ? 0.7 : 1,
+          }}
+        >
+          <span style={{ position: "absolute", top: 3, left: showPrices ? 25 : 3, width: 24, height: 24, borderRadius: "50%", background: "white", boxShadow: "0 2px 5px rgba(0,0,0,.25)", transition: "left .25s ease" }} />
+        </button>
+      </div>
+
       <div className="grid-admin-side">
         <div style={{ background: C.white, borderRadius: 14, padding: 24, boxShadow: "0 2px 10px rgba(0,0,0,.07)" }}>
           <h3 style={{ fontSize: 14, fontWeight: 700, color: C.textDark, marginBottom: 20 }}>Update All Brand Prices</h3>
@@ -57,7 +107,7 @@ export default function AdminPrices({ brands, settings, onChange, toast }) {
                 <div style={{ fontSize: 24 }}>{b.emoji}</div>
                 <div style={{ flex: 1 }}>
                   <div style={{ fontSize: 13, fontWeight: 700 }}>{b.name}</div>
-                  <div style={{ fontSize: 11, color: C.textLight }}>{b.variety} · {b.weight}</div>
+                  <div style={{ fontSize: 11, color: C.textLight }}>{b.variety}{b.weights?.length ? ` · ${b.weights.join(", ")}` : ""}</div>
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                   <span style={{ fontSize: 13, color: C.textLight }}>₹</span>

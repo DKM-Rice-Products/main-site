@@ -7,8 +7,8 @@ import Field from "@/components/ui/Field";
 
 // NOTE: demo-only client-side gate. Replace with real server-side auth
 // (e.g. NextAuth, signed cookies, middleware) before production use.
-const DEMO_USER = "admin";
-const DEMO_PASS = "rice2025";
+const DEMO_USER = "helix";
+const DEMO_PASS = "8476";
 
 export default function AdminLogin({ onLogin }) {
   const [u, setU] = useState("");
@@ -28,11 +28,11 @@ export default function AdminLogin({ onLogin }) {
         <p style={{ fontSize: 13, color: C.textLight, marginBottom: 28 }}>Sri Durai Kannammal Rice Products</p>
         {err && (
           <div style={{ background: "#fee2e2", color: C.red, padding: "10px 16px", borderRadius: 8, fontSize: 13, marginBottom: 16, display: "flex", alignItems: "center", gap: 8 }}>
-            <AlertCircle size={14} /> Invalid credentials. Try admin / rice2025
+            <AlertCircle size={14} /> Invalid credentials. Please try again.
           </div>
         )}
         <Field label="Username">
-          <input style={inputStyle} value={u} onChange={(e) => setU(e.target.value)} placeholder="admin" onKeyDown={(e) => e.key === "Enter" && handle()} />
+          <input style={inputStyle} value={u} onChange={(e) => setU(e.target.value)} placeholder="Enter username" onKeyDown={(e) => e.key === "Enter" && handle()} />
         </Field>
         <Field label="Password">
           <input style={inputStyle} type="password" value={p} onChange={(e) => setP(e.target.value)} placeholder="••••••••" onKeyDown={(e) => e.key === "Enter" && handle()} />
@@ -41,7 +41,6 @@ export default function AdminLogin({ onLogin }) {
           <LogIn size={16} style={{ display: "inline", marginRight: 8, verticalAlign: "middle" }} />
           Sign In
         </button>
-        <p style={{ fontSize: 11, color: C.textLight, marginTop: 16 }}>Demo: admin / rice2025</p>
       </div>
     </div>
   );

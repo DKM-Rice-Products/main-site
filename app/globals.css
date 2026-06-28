@@ -1,10 +1,26 @@
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 84px;
+}
+
 html,
 body {
   margin: 0;
   padding: 0;
   max-width: 100%;
   overflow-x: hidden;
-  background: #f1f8f6;
+  background: #eef6f4;
+  background-image: radial-gradient(
+      1200px 600px at 100% -10%,
+      rgba(45, 212, 191, 0.1),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 500px at -10% 10%,
+      rgba(201, 168, 76, 0.08),
+      transparent 55%
+    );
+  background-attachment: fixed;
   font-family: var(--font-sans), "Segoe UI", system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -24,6 +40,13 @@ table {
 
 a {
   cursor: pointer;
+}
+
+/* Accessible, modern keyboard focus ring */
+:focus-visible {
+  outline: 2px solid #0f766e;
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 ::selection {
@@ -149,6 +172,33 @@ a {
   }
 }
 
+@keyframes scrollCue {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  80% {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes orbDrift {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-24px, 20px) scale(1.08);
+  }
+}
+
 /* Scroll-reveal: starts hidden, fades up when .in is added by <Reveal/> */
 .reveal {
   opacity: 0;
@@ -169,14 +219,16 @@ a {
 
 /* Hover micro-interactions */
 .hover-lift {
-  transition: transform 0.25s ease, box-shadow 0.25s ease,
-    background 0.25s ease, border-color 0.25s ease;
+  transition: transform 0.28s cubic-bezier(0.16, 0.84, 0.44, 1),
+    box-shadow 0.28s ease, background 0.28s ease, border-color 0.28s ease;
 }
 .hover-lift:hover {
-  transform: translateY(-5px);
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px -12px rgba(6, 48, 45, 0.28);
 }
 
 .btn-anim {
+  position: relative;
   transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease;
 }
 .btn-anim:hover {
@@ -209,6 +261,9 @@ a {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
   *,
   *::before,
   *::after {

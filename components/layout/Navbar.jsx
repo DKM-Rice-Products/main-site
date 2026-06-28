@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FileText, Menu, X } from "lucide-react";
@@ -18,15 +18,30 @@ const navPages = [
 export default function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const close = () => setOpen(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <nav
       style={{
         position: "fixed", top: 0, left: 0, right: 0, zIndex: 1000,
-        background: "rgba(11,79,74,.97)", backdropFilter: "blur(12px)",
-        height: 64, padding: "0 5%", display: "flex", alignItems: "center",
-        justifyContent: "space-between", boxShadow: "0 2px 16px rgba(0,0,0,.2)",
+        background: scrolled ? "rgba(8,59,55,.92)" : "rgba(11,79,74,.82)",
+        backdropFilter: "blur(16px) saturate(140%)",
+        WebkitBackdropFilter: "blur(16px) saturate(140%)",
+        borderBottom: scrolled
+          ? "1px solid rgba(201,168,76,.28)"
+          : "1px solid rgba(255,255,255,.06)",
+        height: scrolled ? 60 : 64, padding: "0 5%", display: "flex", alignItems: "center",
+        justifyContent: "space-between",
+        boxShadow: scrolled ? "0 8px 30px rgba(6,48,45,.34)" : "0 2px 16px rgba(0,0,0,.14)",
+        transition: "background .3s ease, height .3s ease, box-shadow .3s ease, border-color .3s ease",
       }}
     >
       <Link href="/" onClick={close} style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
@@ -61,9 +76,10 @@ export default function Navbar() {
           href="/enquiry"
           className="btn-anim"
           style={{
-            background: `linear-gradient(135deg,${C.gold},#a87c2a)`, color: "white",
-            padding: "8px 16px", borderRadius: 20, textDecoration: "none",
+            background: `linear-gradient(135deg,${C.goldLight},${C.gold})`, color: C.green,
+            padding: "9px 18px", borderRadius: 22, textDecoration: "none",
             fontWeight: 700, fontSize: 13, display: "flex", alignItems: "center", gap: 6,
+            boxShadow: "0 6px 18px rgba(201,168,76,.32)",
           }}
         >
           <FileText size={13} /> Enquire Now
@@ -89,9 +105,12 @@ export default function Navbar() {
       <div
         className={`nav-mobile${open ? " open" : ""}`}
         style={{
-          position: "absolute", top: 64, left: 0, right: 0,
+          position: "absolute", top: scrolled ? 60 : 64, left: 0, right: 0,
           flexDirection: "column", gap: 4, padding: "12px 5% 18px",
-          background: "rgba(11,79,74,.99)", backdropFilter: "blur(12px)",
+          background: "rgba(8,59,55,.98)",
+          backdropFilter: "blur(16px) saturate(140%)",
+          WebkitBackdropFilter: "blur(16px) saturate(140%)",
+          borderTop: "1px solid rgba(201,168,76,.2)",
           boxShadow: "0 12px 24px rgba(0,0,0,.25)",
         }}
       >
@@ -117,7 +136,7 @@ export default function Navbar() {
           href="/enquiry"
           onClick={close}
           style={{
-            marginTop: 10, background: `linear-gradient(135deg,${C.gold},#a87c2a)`, color: "white",
+            marginTop: 10, background: `linear-gradient(135deg,${C.goldLight},${C.gold})`, color: C.green,
             padding: "12px 16px", borderRadius: 12, textDecoration: "none", textAlign: "center",
             fontWeight: 700, fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
           }}

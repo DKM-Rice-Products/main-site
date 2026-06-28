@@ -20,6 +20,15 @@ export default function EnquiryForm({ brands }) {
   const [submitting, setSubmitting] = useState(false);
   const set = (k) => (e) => setForm((p) => ({ ...p, [k]: e.target.value }));
 
+  const selectedBrand = brands.find((b) => b.name === form.brand);
+  const sizeOptions = selectedBrand?.weights?.length ? selectedBrand.weights : brandWeights;
+  const onBrandChange = (e) => {
+    const name = e.target.value;
+    const b = brands.find((x) => x.name === name);
+    const allowed = b?.weights?.length ? b.weights : brandWeights;
+    setForm((p) => ({ ...p, brand: name, size: allowed.includes(p.size) ? p.size : "" }));
+  };
+
   const handle = async () => {
     setSubmitting(true);
     setErrors({});
@@ -59,7 +68,7 @@ export default function EnquiryForm({ brands }) {
       </Field>
       <div className="grid-2" style={{ gap: 16 }}>
         <Field label="Rice Brand Interested In">
-          <select style={{ ...inputStyle, appearance: "none", cursor: "pointer" }} value={form.brand} onChange={set("brand")}>
+          <select style={{ ...inputStyle, appearance: "none", cursor: "pointer" }} value={form.brand} onChange={onBrandChange}>
             <option value="">-- Select brand --</option>
             {brands.map((b) => (
               <option key={b.id} value={b.name}>
@@ -71,7 +80,7 @@ export default function EnquiryForm({ brands }) {
         <Field label="Pack Size">
           <select style={{ ...inputStyle, appearance: "none", cursor: "pointer" }} value={form.size} onChange={set("size")}>
             <option value="">-- Select size --</option>
-            {brandWeights.map((w) => (
+            {sizeOptions.map((w) => (
               <option key={w} value={w}>
                 {w}
               </option>

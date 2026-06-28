@@ -14,7 +14,7 @@ const columns = [
       ["Contact", "/contact"],
     ],
   },
-  { h: "Rice Varieties", items: [["Ponni Rice"], ["Basmati Rice"], ["Raw Rice"], ["Boiled Rice"], ["Sona Masuri"]] },
+  { h: "Rice Varieties", items: [["Ponni Rice"], ["RNR Rice"], ["BPT Rice"], ["Raw Rice"], ["Sona Masuri"]] },
   {
     h: "Contact",
     items: [[`📱 ${company.phone}`], [`📧 ${company.email}`], [`📍 ${company.address.city}, ${company.address.district}`], [`${company.address.state} – ${company.address.pincode}`]],

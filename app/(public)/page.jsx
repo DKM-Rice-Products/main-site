@@ -11,12 +11,12 @@ export const dynamic = "force-dynamic";
 
 export default function HomePage() {
   const brands = listBrands();
-  const { directPrice, retailPrice } = getSettings();
+  const { directPrice, retailPrice, showPrices = true } = getSettings();
 
   return (
     <>
       <HeroSection />
-      <PriceStrip directPrice={directPrice} retailPrice={retailPrice} />
+      {showPrices && <PriceStrip directPrice={directPrice} retailPrice={retailPrice} />}
       <Reveal>
         <StatsBar />
       </Reveal>
@@ -24,7 +24,7 @@ export default function HomePage() {
         <WhyChooseUs />
       </Reveal>
       <Reveal>
-        <FeaturedBrands brands={brands} />
+        <FeaturedBrands brands={brands} showPrices={showPrices} />
       </Reveal>
       <Reveal>
         <BulkCTA />
