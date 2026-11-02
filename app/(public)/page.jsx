@@ -7,8 +7,6 @@ import FeaturedBrands from "@/components/home/FeaturedBrands";
 import BulkCTA from "@/components/home/BulkCTA";
 import Reveal from "@/components/ui/Reveal";
 
-export const dynamic = "force-dynamic";
-
 export default function HomePage() {
   const brands = listBrands();
   const { directPrice, retailPrice, showPrices = true } = getSettings();

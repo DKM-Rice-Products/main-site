@@ -3,6 +3,8 @@ import { MessageCircle } from "lucide-react";
 import { C } from "@/lib/theme";
 import { company } from "@/data/company";
 
+const publicPath = process.env.NEXT_PUBLIC_PAGES_CUSTOM_DOMAIN === "true" ? "" : "/main-site";
+
 const columns = [
   {
     h: "Quick Links",
@@ -27,7 +29,7 @@ export default function Footer() {
       <div className="grid-footer" style={{ marginBottom: 40 }}>
         <div>
           <h3 style={{ fontFamily: "var(--font-display)", color: "white", marginBottom: 10, display: "flex", alignItems: "center", gap: 8 }}>
-            <img src="/logo.png" alt="" width={30} height={30} style={{ objectFit: "contain" }} /> {company.name}
+            <img src={`${publicPath}/logo.png`} alt="" width={30} height={30} style={{ objectFit: "contain" }} /> {company.name}
           </h3>
           <p style={{ fontSize: 13, lineHeight: 1.7 }}>Premium quality rice from our mill to your table. Serving Tamil Nadu since {company.established}.</p>
           <a

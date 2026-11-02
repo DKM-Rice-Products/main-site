@@ -7,6 +7,8 @@ import { FileText, Menu, X } from "lucide-react";
 import { C } from "@/lib/theme";
 import { company } from "@/data/company";
 
+const publicPath = process.env.NEXT_PUBLIC_PAGES_CUSTOM_DOMAIN === "true" ? "" : "/main-site";
+
 const navPages = [
   { href: "/", label: "Home" },
   { href: "/brands", label: "Our Brands" },
@@ -45,7 +47,7 @@ export default function Navbar() {
       }}
     >
       <Link href="/" onClick={close} style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
-        <img src="/logo.png" alt={company.shortName} width={40} height={40} style={{ width: 40, height: 40, objectFit: "contain" }} />
+        <img src={`${publicPath}/logo.png`} alt={company.shortName} width={40} height={40} style={{ width: 40, height: 40, objectFit: "contain" }} />
         <div style={{ color: "white", textAlign: "left" }}>
           <div style={{ fontFamily: "var(--font-display)", fontSize: 15, lineHeight: 1.1 }}>{company.shortName}</div>
           <div style={{ fontSize: 10, color: C.goldLight, letterSpacing: 1.2, textTransform: "uppercase" }}>{company.tagline}</div>

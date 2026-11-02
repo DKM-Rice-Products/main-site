@@ -1,23 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { FileText } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import { C, inputStyle } from "@/lib/theme";
 import { purchaseOptions } from "@/data/enquiries";
 import { brandWeights } from "@/data/brands";
+import { company } from "@/data/company";
 import Field from "@/components/ui/Field";
-import { usePublic } from "@/components/providers/PublicProvider";
-import { createEnquiry } from "@/lib/api-client";
 
 const empty = { name: "", email: "", phone: "", location: "", brand: "", size: "", qty: "", type: "direct", note: "" };
 
 export default function EnquiryForm({ brands }) {
-  const router = useRouter();
-  const { toast } = usePublic();
   const [form, setForm] = useState(empty);
   const [errors, setErrors] = useState({});
-  const [submitting, setSubmitting] = useState(false);
   const set = (k) => (e) => setForm((p) => ({ ...p, [k]: e.target.value }));
 
   const selectedBrand = brands.find((b) => b.name === form.brand);
@@ -29,25 +24,34 @@ export default function EnquiryForm({ brands }) {
     setForm((p) => ({ ...p, brand: name, size: allowed.includes(p.size) ? p.size : "" }));
   };
 
-  const handle = async () => {
-    setSubmitting(true);
-    setErrors({});
-    try {
-      await createEnquiry(form);
-      setForm(empty);
-      toast("Enquiry submitted! We'll contact you within 2 hours.");
-      router.push("/");
-    } catch (err) {
-      if (err.fields) setErrors(err.fields);
-      toast(err.message || "Could not submit enquiry.", "error");
-    } finally {
-      setSubmitting(false);
-    }
+  const handle = () => {
+    const nextErrors = {};
+    if (form.name.trim().length < 2) nextErrors.name = "Enter your name (at least 2 characters).";
+    if (form.phone.replace(/\D/g, "").length < 10) nextErrors.phone = "Enter a valid phone number.";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) nextErrors.email = "Enter a valid email address.";
+    if (!form.location.trim()) nextErrors.location = "Enter your city or district.";
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length) return;
+
+    const message = [
+      "Rice product enquiry",
+      `Name: ${form.name.trim()}`,
+      `Phone: ${form.phone.trim()}`,
+      `Email: ${form.email.trim()}`,
+      `Location: ${form.location.trim()}`,
+      form.brand && `Brand: ${form.brand}`,
+      form.size && `Pack size: ${form.size}`,
+      form.qty && `Quantity: ${form.qty}`,
+      `Purchase preference: ${form.type}`,
+      form.note && `Additional comments: ${form.note}`,
+    ].filter(Boolean).join("\n");
+    window.open(`https://wa.me/${company.whatsapp}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
   };
 
   return (
     <div style={{ background: C.white, borderRadius: 16, padding: 32, boxShadow: "0 2px 12px rgba(0,0,0,.07)" }}>
       <h3 style={{ fontFamily: "var(--font-display)", color: C.green, fontSize: "1.2rem", marginBottom: 24 }}>Tell Us Your Requirements</h3>
+      <p style={{ color: C.textMid, fontSize: 13, lineHeight: 1.6, marginTop: -12, marginBottom: 20 }}>This static site opens WhatsApp with your enquiry ready. Review it there and press Send to contact us.</p>
       <div className="grid-2" style={{ gap: 16 }}>
         <Field label="Customer Name" required>
           <input style={inputStyle} value={form.name} onChange={set("name")} placeholder="Your full name" />
@@ -117,15 +121,14 @@ export default function EnquiryForm({ brands }) {
       </Field>
       <button
         onClick={handle}
-        disabled={submitting}
         style={{
           width: "100%", background: `linear-gradient(135deg,${C.greenMid},${C.green})`,
           color: C.white, padding: 15, borderRadius: 12, border: "none", fontWeight: 700,
-          fontSize: 15, cursor: submitting ? "wait" : "pointer", opacity: submitting ? 0.7 : 1,
+          fontSize: 15, cursor: "pointer",
           display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
         }}
       >
-        <FileText size={16} /> {submitting ? "Submitting..." : "Submit Enquiry"}
+        <MessageCircle size={16} /> Continue in WhatsApp
       </button>
     </div>
   );

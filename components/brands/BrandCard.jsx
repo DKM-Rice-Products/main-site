@@ -6,6 +6,8 @@ import { brandWeights } from "@/data/brands";
 import Badge from "@/components/ui/Badge";
 import { usePublic } from "@/components/providers/PublicProvider";
 
+const publicPath = process.env.NEXT_PUBLIC_PAGES_CUSTOM_DOMAIN === "true" ? "" : "/main-site";
+
 export default function BrandCard({ brand, showPrices = true }) {
   const { openEnquiry } = usePublic();
   const s = stockMeta[brand.stock];
@@ -31,7 +33,7 @@ export default function BrandCard({ brand, showPrices = true }) {
         {/* grounding shadow that sells the float */}
         <div aria-hidden style={{ position: "absolute", bottom: 26, left: "50%", transform: "translateX(-50%)", width: 130, height: 22, background: "radial-gradient(ellipse, rgba(6,48,45,.30) 0%, transparent 70%)", filter: "blur(3px)", animation: `floatShadow 4s ease-in-out ${(brand.id % 5) * 0.4}s infinite`, pointerEvents: "none" }} />
         <img
-          src={brand.image || "/AkastiGold.png"}
+          src={`${publicPath}${brand.image || "/AkastiGold.png"}`}
           alt={`${brand.name} rice bag`}
           loading="lazy"
           style={{ height: 230, width: "auto", objectFit: "contain", position: "relative", zIndex: 1, filter: "drop-shadow(0 14px 22px rgba(6,48,45,.30))", animation: `floatY 4s ease-in-out ${(brand.id % 5) * 0.4}s infinite` }}

@@ -5,8 +5,6 @@ import { C } from "@/lib/theme";
 import PageHeader from "@/components/ui/PageHeader";
 import EnquiryForm from "@/components/enquiry/EnquiryForm";
 
-export const dynamic = "force-dynamic";
-
 export const metadata = { title: "Enquiry | Sri Durai Kannammal Rice Products" };
 
 export default function EnquiryPage() {

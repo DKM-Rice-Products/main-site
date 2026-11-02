@@ -1,6 +1,8 @@
 import { Plus_Jakarta_Sans, Fraunces } from "next/font/google";
 import "./globals.css";
 
+const publicPath = process.env.PAGES_CUSTOM_DOMAIN === "true" ? "" : "/main-site";
+
 const sans = Plus_Jakarta_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
@@ -29,9 +31,9 @@ export const metadata = {
     "Arani rice",
   ],
   icons: {
-    icon: "/logo.png",
-    shortcut: "/logo.png",
-    apple: "/logo.png",
+    icon: `${publicPath}/logo.png`,
+    shortcut: `${publicPath}/logo.png`,
+    apple: `${publicPath}/logo.png`,
   },
 };
 

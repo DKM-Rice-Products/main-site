@@ -6,31 +6,27 @@ import { C, inputStyle } from "@/lib/theme";
 import Modal from "@/components/ui/Modal";
 import Field from "@/components/ui/Field";
 import { brandWeights } from "@/data/brands";
-import { createEnquiry } from "@/lib/api-client";
+import { company } from "@/data/company";
 
 const empty = { name: "", phone: "", location: "", size: "", qty: "" };
 
 export default function QuickEnquiryModal({ open, onClose, brand, showPrices = true, onSuccess, onError }) {
   const [form, setForm] = useState(empty);
-  const [submitting, setSubmitting] = useState(false);
   const set = (k) => (e) => setForm((p) => ({ ...p, [k]: e.target.value }));
 
-  const handle = async () => {
-    setSubmitting(true);
-    try {
-      await createEnquiry({
-        ...form,
-        location: form.location || "—",
-        brand: brand?.name || "",
-        type: "direct",
-      });
-      setForm(empty);
-      onSuccess?.();
-    } catch (err) {
-      onError?.(err.message || "Could not submit enquiry.");
-    } finally {
-      setSubmitting(false);
-    }
+  const handle = () => {
+    const message = [
+      "Rice product enquiry",
+      `Name: ${form.name.trim() || "Not provided"}`,
+      `Phone: ${form.phone.trim() || "Not provided"}`,
+      form.location && `Location: ${form.location.trim()}`,
+      brand?.name && `Brand: ${brand.name}`,
+      form.size && `Pack size: ${form.size}`,
+      form.qty && `Quantity: ${form.qty}`,
+    ].filter(Boolean).join("\n");
+    window.open(`https://wa.me/${company.whatsapp}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+    setForm(empty);
+    onClose();
   };
 
   return (
@@ -69,15 +65,14 @@ export default function QuickEnquiryModal({ open, onClose, brand, showPrices = t
       </Field>
       <button
         onClick={handle}
-        disabled={submitting}
         style={{
           width: "100%", background: `linear-gradient(135deg,${C.greenMid},${C.green})`,
           color: "white", padding: 13, borderRadius: 10, border: "none", fontWeight: 700,
-          fontSize: 14, cursor: submitting ? "wait" : "pointer", opacity: submitting ? 0.7 : 1,
+          fontSize: 14, cursor: "pointer",
           display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
         }}
       >
-        <Check size={15} /> {submitting ? "Submitting..." : "Submit Enquiry"}
+        <Check size={15} /> Continue in WhatsApp
       </button>
     </Modal>
   );

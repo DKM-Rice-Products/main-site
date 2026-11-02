@@ -9,7 +9,31 @@ A Next.js (App Router) application for a rice distribution business — a public
 - [Recharts](https://recharts.org/) — admin dashboard charts
 - [lucide-react](https://lucide.dev/) — icons
 
-## Getting started
+## GitHub Pages static hosting
+
+The public brochure site is exported as a static site and deployed automatically
+to GitHub Pages whenever changes are pushed to `main`. The first Pages URL is
+`https://dkm-rice-products.github.io/main-site/`.
+
+The static version keeps the public pages, product catalogue, and contact
+details. Enquiry forms open WhatsApp with a prefilled message; the visitor must
+press Send in WhatsApp. The admin dashboard, API routes, persistent enquiry
+storage, and image uploads require a server and are not part of the Pages site.
+Their source files are retained under `server-backend/` for a future server
+deployment.
+
+In the repository settings, set **Settings → Pages → Build and deployment →
+Source** to **GitHub Actions**. The workflow in `.github/workflows/pages.yml`
+builds and deploys the `out/` directory.
+
+To use a custom domain, first add it in **Settings → Pages → Custom domain** and
+configure the DNS records shown by GitHub. Then add a repository Actions
+variable named `PAGES_CUSTOM_DOMAIN` with the value `true` so the next build
+uses the domain root instead of the `/main-site` project path. For the default
+`github.io` project URL, leave that variable unset. Enable **Enforce HTTPS**
+after GitHub finishes the DNS check and provisions the certificate.
+
+## Local development
 
 Install dependencies:
 
