@@ -20,19 +20,34 @@ jobs:
     env:
       PAGES_CUSTOM_DOMAIN: ${{ vars.PAGES_CUSTOM_DOMAIN || 'false' }}
       NEXT_PUBLIC_PAGES_CUSTOM_DOMAIN: ${{ vars.PAGES_CUSTOM_DOMAIN || 'false' }}
+      # Maintenance mode is ON unless the repository variable MAINTENANCE_MODE
+      # is set to "false". When on, the static page in maintenance/ is
+      # published instead of the full site. To bring the old site back:
+      # Settings → Secrets and variables → Actions → Variables →
+      # MAINTENANCE_MODE = false, then re-run this workflow.
+      MAINTENANCE: ${{ vars.MAINTENANCE_MODE != 'false' }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
       - name: Set up Node.js
+        if: env.MAINTENANCE != 'true'
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
       - name: Install dependencies
+        if: env.MAINTENANCE != 'true'
         run: npm ci
       - name: Build static site
+        if: env.MAINTENANCE != 'true'
         run: npm run build
+      - name: Upload maintenance page
+        if: env.MAINTENANCE == 'true'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: maintenance
       - name: Upload Pages artifact
+        if: env.MAINTENANCE != 'true'
         uses: actions/upload-pages-artifact@v3
         with:
           path: out
